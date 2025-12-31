@@ -6,7 +6,7 @@ function App() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    client.get({ endpoint: 'posts' }).then((res) => {
+    client.get({ endpoint: 'blog' }).then((res) => {
       setPosts(res.contents);
     });
   }, []);
