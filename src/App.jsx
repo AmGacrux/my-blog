@@ -1,27 +1,28 @@
-import { useEffect, useState } from 'react';
-import { client } from './libs/client';
-import ReactMarkdown from 'react-markdown';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Sidebar from './components/Sidebar';
+import Home from './pages/Home';
+import PostDetail from './pages/PostDetail';
+import CategoryHome from './pages/CategoryHome';
+import './App.css'; // ここで全体のレイアウトを調整
 
 function App() {
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    client.get({ endpoint: 'blog' }).then((res) => {
-      setPosts(res.contents);
-    });
-  }, []);
-
   return (
-    <div>
-      <h1>My Blog</h1>
-      {posts.map((post) => (
-        <article key={post.id} style={{ borderBottom: '1px solid #ccc', marginBottom: '2rem' }}>
-          <h2>{post.title}</h2>
-          {/* MarkdownをHTMLに変換して表示 */}
-          <ReactMarkdown>{post.content}</ReactMarkdown>
-        </article>
-      ))}
-    </div>
+    <Router>
+      <div className="container">
+        <Header />
+        <div className="content-wrapper">
+          <main className="main-content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/post/:id" element={<PostDetail />} />
+              <Route path="/category/:categoryId" element={<CategoryHome />} />
+            </Routes>
+          </main>
+          <Sidebar />
+        </div>
+      </div>
+    </Router>
   );
 }
 
